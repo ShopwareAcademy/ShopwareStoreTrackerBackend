@@ -11,6 +11,7 @@
         "doctrine/orm": "^3.3",
         "fakerphp/faker": "^1.24",
         "nelmio/cors-bundle": "^2.5",
+        "nyholm/psr7": "^1.8",
         "shopware/app-bundle": "^4.1",
         "symfony/console": "7.2.*",
         "symfony/doctrine-bridge": "7.2.*",
@@ -19,6 +20,7 @@
         "symfony/framework-bundle": "7.2.*",
         "symfony/maker-bundle": "^1.61",
         "symfony/monolog-bundle": "^3.10",
+        "symfony/psr-http-message-bridge": "7.2.*",
         "symfony/runtime": "7.2.*",
         "symfony/yaml": "7.2.*"
     },
