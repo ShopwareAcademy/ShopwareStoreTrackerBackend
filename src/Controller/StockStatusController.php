@@ -38,7 +38,7 @@ class StockStatusController extends AbstractController {
         for ($i = 0; $i < 5; $i++) {
             $stockData[] = [
                 "name" => $this->faker->company(),
-                "address" => $this->faker->address(),
+                "country" => $this->faker->country(),
                 "stockQuantity" => $this->faker->numberBetween(1,100)
             ];
         }
