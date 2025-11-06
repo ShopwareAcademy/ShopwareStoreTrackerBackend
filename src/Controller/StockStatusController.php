@@ -1,6 +1,8 @@
-<?php
+<?php declare(strict_types=1);
+
 namespace App\Controller;
 
+use Psr\Cache\InvalidArgumentException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -10,16 +12,20 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\Cache\TagAwareCacheInterface;
 
-class StockStatusController extends AbstractController {
-    protected Generator $faker;
+class StockStatusController extends AbstractController
+{
+    private Generator $faker;
+    private readonly TagAwareCacheInterface $cachePool;
 
-    public function __construct(
-        private TagAwareCacheInterface $cachePool
-    ) {
+    public function __construct(TagAwareCacheInterface $cachePool)
+    {
         $this->faker = Factory::create();
+        $this->cachePool = $cachePool;
     }
 
-
+    /**
+     * @throws InvalidArgumentException
+     */
     #[Route('/stock-status/{productId}', name: 'stock_status')]
     public function index(string $productId): Response
     {
@@ -32,14 +38,15 @@ class StockStatusController extends AbstractController {
         return new JsonResponse($stockData);
     }
 
-    private function generateStockData(): array {
+    private function generateStockData(): array
+    {
         $stockData = [];
 
         for ($i = 0; $i < 5; $i++) {
             $stockData[] = [
                 "name" => $this->faker->company(),
                 "country" => $this->faker->country(),
-                "stockQuantity" => $this->faker->numberBetween(1,100)
+                "stockQuantity" => $this->faker->numberBetween(1, 100)
             ];
         }
 
