@@ -48,6 +48,9 @@ class DispatchNoteController extends AbstractController
         $this->logger->alert($request->getBody()->getContents());
         $request->getBody()->rewind();
 
+        $shop = $this->shopResolver->resolveShop($request);
+        $client = $this->clientFactory->createSimpleClient($shop);
+
         // Let's also extract payload data and prepare for sending!
         $responseContents = json_decode(
             $request->getBody()->getContents(),
@@ -61,9 +64,6 @@ class DispatchNoteController extends AbstractController
             fn($key) => str_starts_with($key, 'customerDelivery'),
             ARRAY_FILTER_USE_KEY
         );
-
-        $shop = $this->shopResolver->resolveShop($request);
-        $client = $this->clientFactory->createSimpleClient($shop);
 
         // The URL we will use for updating the Shopware `Order` entity
         $orderPatchURL = $shop->getShopUrl() . '/api/order/' . $responseContents['orderId'];
