@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\DispatchNoteRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: DispatchNoteRepository::class)]
@@ -16,7 +17,7 @@ class DispatchNote
     #[ORM\Column(length: 100)]
     private ?string $shopwareOrderNumber = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: Types::JSON)]
     private array $customerDeliveryAddress = [];
 
     #[ORM\Column(length: 100, nullable: true)]
